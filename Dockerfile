@@ -14,7 +14,7 @@ RUN \
     source venv/bin/activate && \
     apk --update --no-cache add python3-dev libffi-dev gcc musl-dev make libevent-dev build-base && \
     pip install wheel --no-cache-dir && \
-    pip install gevent --no-cache-dir && \
+    pip install gevent==20.9.0 --no-cache-dir && \
     apk add --no-cache git go && \
     git clone --depth=1 https://github.com/CTFd/CTFd.git
 
