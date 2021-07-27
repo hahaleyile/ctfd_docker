@@ -39,4 +39,4 @@ RUN mkdir /var/log/CTFd /var/uploads && \
 
 USER 1001
 EXPOSE 8000
-ENTRYPOINT ["CTFd/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "CTFd/docker-entrypoint.sh"]
