@@ -10,11 +10,12 @@ ENV TZ="Asia/Shanghai"
 WORKDIR /opt
 
 RUN \
-    apk add --no-cache py3-wheel libc-dev libffi-dev musl-dev gcc make git go && \
+    apk add --no-cache libffi-dev musl-dev gcc g++ make file git go && \
     git clone --depth=1 https://github.com/CTFd/CTFd.git && \
     python -m venv venv && \
+    pip install wheel && \
     source venv/bin/activate
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN cd CTFd
+RUN pip install -r CTFd/requirements.txt
