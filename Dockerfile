@@ -18,4 +18,5 @@ RUN \
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install -r CTFd/requirements.txt
+# RUN pip install -r CTFd/requirements.txt
+RUN cd CTFd
