@@ -32,7 +32,7 @@ ENV TZ="Asia/Shanghai"
 
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat python3-dev && \
+RUN apk add --no-cache libc6-compat && \
     adduser -D -u 1001 -g "" -s /bin/sh ctfd
 RUN mkdir /var/log/CTFd /var/uploads && \
     chmod +x docker-entrypoint.sh && \
