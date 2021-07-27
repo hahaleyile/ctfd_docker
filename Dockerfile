@@ -10,13 +10,14 @@ ENV TZ="Asia/Shanghai"
 WORKDIR /opt
 
 RUN \
-    apk add --no-cache build-base libffi-dev musl-dev gcc g++ make file git go && \
-    git clone --depth=1 https://github.com/CTFd/CTFd.git && \
     python -m venv venv && \
     source venv/bin/activate && \
-    pip install wheel gevent --no-cache-dir
+    apk --update --no-cache add python3-dev libffi-dev gcc musl-dev make libevent-dev build-base && \
+    pip install wheel --no-cache-dir && \
+    pip install gevent --no-cache-dir && \
+    apk add --no-cache git go && \
+    git clone --depth=1 https://github.com/CTFd/CTFd.git
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-# RUN pip install -r CTFd/requirements.txt
-RUN cd CTFd
+RUN pip install -r CTFd/requirements.txt
