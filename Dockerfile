@@ -22,7 +22,7 @@ RUN venv/bin/pip install -r CTFd/requirements.txt --no-cache-dir && \
     done;
 
 
-FROM python:3.9-alpine
+FROM alpine
 
 COPY --from=compile /opt/venv /opt/venv
 COPY --from=compile /opt/CTFd /app/CTFd
