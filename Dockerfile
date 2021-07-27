@@ -2,7 +2,7 @@
 # ENV GO111MODULE=on
 # ENV GOPROXY=https://goproxy.cn
 
-FROM python:3.9-slim-buster AS compiler
+FROM python:3.9-slim-buster AS compile
 
 WORKDIR /opt
 
