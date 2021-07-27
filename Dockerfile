@@ -8,17 +8,16 @@ WORKDIR /opt
 
 RUN \
     python -m venv venv && \
-    source venv/bin/activate && \
     apt-get update && \
     apt-get install -y --no-install-recommends build-essential python3-dev libffi-dev libssl-dev git && \
     git clone --depth=1 https://github.com/CTFd/CTFd.git
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install -r CTFd/requirements.txt --no-cache-dir && \
+RUN venv/bin/pip install -r CTFd/requirements.txt --no-cache-dir && \
     for d in CTFd/CTFd/plugins/*; do \
         if [ -f "$d/requirements.txt" ]; then \
-            pip install -r $d/requirements.txt --no-cache-dir; \
+            venv/bin/pip install -r $d/requirements.txt --no-cache-dir; \
         fi; \
     done;
 
@@ -26,7 +25,7 @@ RUN pip install -r CTFd/requirements.txt --no-cache-dir && \
 FROM python:3.9-alpine
 
 COPY --from=compile /opt/venv /opt/venv
-COPY --from=compile /opt/CTFd CTFd
+COPY --from=compile /opt/CTFd /app/CTFd
 
 ENV PATH="/opt/venv/bin:$PATH"
 ENV TZ="Asia/Shanghai"
