@@ -7,7 +7,7 @@ FROM python:3.9-slim-buster AS compile
 WORKDIR /opt
 
 RUN \
-    python -m venv venv && \
+    python -m venv --copies venv && \
     apt-get update && \
     apt-get install -y --no-install-recommends build-essential python3-dev libffi-dev libssl-dev git && \
     git clone --depth=1 https://github.com/CTFd/CTFd.git
@@ -22,7 +22,7 @@ RUN venv/bin/pip install -r CTFd/requirements.txt --no-cache-dir && \
     done;
 
 
-FROM python:3.9-alpine
+FROM alpine
 
 COPY --from=compile /opt/venv /opt/venv
 COPY --from=compile /opt/CTFd /app
@@ -32,7 +32,8 @@ ENV TZ="Asia/Shanghai"
 
 WORKDIR /app
 
-RUN adduser -D -u 1001 -g "" -s /bin/sh ctfd
+RUN apk add --no-cache libc6-compat && \
+    adduser -D -u 1001 -g "" -s /bin/sh ctfd
 RUN mkdir /var/log/CTFd /var/uploads && \
     chmod +x docker-entrypoint.sh && \
     chown -R 1001:1001 CTFd /var/log/CTFd /var/uploads
