@@ -25,7 +25,7 @@ RUN venv/bin/pip install -r CTFd/requirements.txt --no-cache-dir && \
 FROM alpine
 
 COPY --from=compile /opt/venv /opt/venv
-COPY --from=compile /opt/CTFd /app/CTFd
+COPY --from=compile /opt/CTFd /app
 
 ENV PATH="/opt/venv/bin:$PATH"
 ENV TZ="Asia/Shanghai"
@@ -34,9 +34,9 @@ WORKDIR /app
 
 RUN adduser -D -u 1001 -g "" -s /bin/sh ctfd
 RUN mkdir /var/log/CTFd /var/uploads && \
-    chmod +x CTFd/docker-entrypoint.sh && \
+    chmod +x docker-entrypoint.sh && \
     chown -R 1001:1001 CTFd /var/log/CTFd /var/uploads
 
 USER 1001
 EXPOSE 8000
-ENTRYPOINT ["/bin/sh", "CTFd/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "docker-entrypoint.sh"]
