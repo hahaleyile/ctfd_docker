@@ -22,7 +22,7 @@ RUN venv/bin/pip install -r CTFd/requirements.txt --no-cache-dir && \
     done;
 
 
-FROM python:3.9-alpine
+FROM python:3.9-slim-buster
 
 COPY --from=compile /opt/venv /opt/venv
 COPY --from=compile /opt/CTFd /app
@@ -32,14 +32,11 @@ ENV PATH="/lib64:/opt/venv/bin:$PATH" \
 
 WORKDIR /app
 
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-    wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.33-r0/glibc-2.33-r0.apk && \
-    apk add --no-cache glibc-2.33-r0.apk && \
-    adduser -D -u 1001 -g "" -s /bin/sh ctfd
+RUN adduser --disabled-login --uid 1001 --gecos "" --shell /bin/bash ctfd
 RUN mkdir /var/log/CTFd /var/uploads && \
     chmod +x docker-entrypoint.sh && \
     chown -R 1001:1001 CTFd /var/log/CTFd /var/uploads
 
 USER 1001
 EXPOSE 8000
-ENTRYPOINT ["/bin/sh", "docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "docker-entrypoint.sh"]
