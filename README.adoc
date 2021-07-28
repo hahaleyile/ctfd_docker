@@ -1,0 +1,20 @@
+= 项目说明
+
+本项目用来搭建一个 ctfd 的容器，无需在本机构建镜像。
+如果你想自己来构建镜像，注意项目使用到的依赖库需要使用 go 来编译，在国内环境下大概率编译失败。
+
+== 安装说明
+
+你可以单独跑一个 docker 容器：
+
+[source,bash]
+----
+docker run -p 8000:8000 -it hahleyile/ctfd
+----
+
+也可以使用 docker compose 跑一个 docker 容器集群：
+
+[source,bash]
+----
+docker-compose up -d
+----
